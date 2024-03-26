@@ -3,16 +3,21 @@ import requests
 from django.http import JsonResponse
 import os
 from dotenv import load_dotenv
+from rest_framework.views import APIView
+from requests import get
 
 # Create your views here.
 
 load_dotenv()
 
-class MovieDetailView():
+class MovieDetailView(APIView):
 
-    def post(request):
+    def get(self, request):
+        
+        query =  request.GET.get('q')
 
-        api_key = os.environ.get('APIKEY')
+        if (query):
+            pass
+
         
 
-    

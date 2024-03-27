@@ -1,0 +1,19 @@
+version: "3.12"
+
+services:
+  django:
+    container_name: CSbackend
+    build:
+      context: ./CSbackend
+      dockerfile: Dockerfile
+    command: python manage.py runserver
+    volumes:
+      - ./CSbackend:/usr/src/app
+    ports:
+      - 8001:8000
+    environment:
+      - DEBUG
+      - SECRET_KEY
+      - ALLOWED_HOSTS
+    env_file:
+      - .env

@@ -7,7 +7,7 @@ python3 -m venv venv
 source venv/bin/activate
 
 # Step 3: Install requirements
-pip install -r requirements.txt
+pip install -r CSbackend/requirements.txt
 
 # Step 4: Change directory to CSbackend
 cd CSbackend

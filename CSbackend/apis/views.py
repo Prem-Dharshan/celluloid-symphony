@@ -292,7 +292,7 @@ class NowPlayingView(APIView):
         url = f"https://api.themoviedb.org/3/search/movie/now_playing"
 
         params = {
-            'language': request.query_params.get('language', 'ta-IN'),
+            'language': request.query_params.get('language', 'en-US'),
             'page': request.query_params.get('page', 1),
             'region': request.query_params.get('region', 'India'),
         }

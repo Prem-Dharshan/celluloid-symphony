@@ -165,6 +165,63 @@ class TVShowSearchView(APIView):
             return Response({"error": "Failed to retrieve TV show data"}, status=response.status_code)
 
 
+class MultiSearchView(APIView):
+
+    @swagger_auto_schema(
+        manual_parameters=[
+            openapi.Parameter(
+                name='include_adult',
+                in_=openapi.IN_QUERY,
+                type=openapi.TYPE_BOOLEAN,
+                required=False,
+                description='Include adult content (true or false)',
+                default=False
+            ),
+            openapi.Parameter(
+                name='language',
+                in_=openapi.IN_QUERY,
+                type=openapi.TYPE_STRING,
+                required=False,
+                description='Language code (e.g., "en-US")',
+                default='en-US'
+            ),
+            openapi.Parameter(
+                name='page',
+                in_=openapi.IN_QUERY,
+                type=openapi.TYPE_INTEGER,
+                required=False,
+                description='Page number',
+                default=1
+            ),
+        ]
+    )
+    def get(self, request, content_name):
+
+        url = f"https://api.themoviedb.org/3/search/multi"
+
+        params = {
+            'query': content_name,
+            'include_adult': request.query_params.get('include_adult', 'true'),
+            'language': request.query_params.get('language', 'en-US'),
+            'page': request.query_params.get('page', 1),
+        }
+
+        headers = {
+            "accept": "application/json",
+            "Authorization": f"Bearer {os.environ.get('ACCESSTOKENAUTH')}"
+        }
+
+        response = requests.get(url, params=params, headers=headers)
+        # print(response.url)
+
+        if response.status_code == 200:
+            return Response(response.json())
+        elif response.status_code == 401:
+            return Response({"error": "Unauthorized request. Please check your bearer token."}, status=status.HTTP_401_UNAUTHORIZED)
+        else:
+            return Response({"error": "Failed to retrieve requested data"}, status=response.status_code)
+
+
 class MovieDetailView(APIView):
 
     @swagger_auto_schema(
@@ -192,6 +249,61 @@ class MovieDetailView(APIView):
         }
 
         response = requests.get(url, headers=headers, params=params)
+
+        if response.status_code == 200:
+            return Response(response.json())
+        elif response.status_code == 401:
+            return Response({"error": "Unauthorized request. Please check your bearer token."}, status=status.HTTP_401_UNAUTHORIZED)
+        else:
+            return Response({"error": "Failed to retrieve movie data"}, status=response.status_code)
+
+
+class NowPlayingView(APIView):
+
+    @swagger_auto_schema(
+        manual_parameters=[
+            openapi.Parameter(
+                name='language',
+                in_=openapi.IN_QUERY,
+                type=openapi.TYPE_STRING,
+                required=False,
+                description='Language code (e.g., "ta-IN")',
+                default='en-US'
+            ),
+            openapi.Parameter(
+                name='page',
+                in_=openapi.IN_QUERY,
+                type=openapi.TYPE_INTEGER,
+                required=False,
+                description='Page number',
+                default=1
+            ),
+            openapi.Parameter(
+                name='region',
+                in_=openapi.IN_QUERY,
+                type=openapi.TYPE_STRING,
+                required=False,
+                description='Region code',
+            ),
+        ]
+    )
+    def get(self, request):
+
+        url = f"https://api.themoviedb.org/3/search/movie/now_playing"
+
+        params = {
+            'language': request.query_params.get('language', 'ta-IN'),
+            'page': request.query_params.get('page', 1),
+            'region': request.query_params.get('region', 'India'),
+        }
+
+        headers = {
+            "accept": "application/json",
+            "Authorization": f"Bearer {os.environ.get('ACCESSTOKENAUTH')}"
+        }
+
+        response = requests.get(url, params=params, headers=headers)
+        print(response.url)
 
         if response.status_code == 200:
             return Response(response.json())

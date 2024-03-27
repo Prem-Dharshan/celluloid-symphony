@@ -1,6 +1,7 @@
 #!/bin/bash
 
 # Source the environment variables
+source ../venv/Scripts/activate
 source ../.env
 
 # Run system check

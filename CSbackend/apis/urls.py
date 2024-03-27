@@ -19,5 +19,11 @@ urlpatterns = [
     path('now-playing', NowPlayingView.as_view(), name='now-playing'),
 
     # TRENDING
-    path('trending/all', TrendingView.as_view(), name='trending-all')
+    path('trending/all', TrendingView.as_view(), name='trending-all'),
+
+    # IMAGES
+    path('images/<str:content_type>/<int:content_id>',
+         ImageView.as_view(), name='images'),
+    # 577922
+    # 70523
 ]

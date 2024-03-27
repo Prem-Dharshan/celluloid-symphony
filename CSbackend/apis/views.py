@@ -331,10 +331,9 @@ class TrendingView(APIView):
                 in_=openapi.IN_QUERY,
                 type=openapi.TYPE_STRING,
                 required=False,
-                description='Language code (e.g., "ta-IN")',
+                description='Language code (e.g., "en-IN")',
                 default='en-US'
             ),
-            
         ]
     )
     def get(self, request):
@@ -362,3 +361,64 @@ class TrendingView(APIView):
             return Response({"error": "Failed to retrieve trending data"}, status=response.status_code)
 
 
+class ImageView(APIView):
+
+    @swagger_auto_schema(
+        manual_parameters=[
+            openapi.Parameter(
+                name='content_type',
+                in_=openapi.IN_PATH,
+                type=openapi.TYPE_STRING,
+                required=True,
+                description='Movie or TV Show',
+                enum=['movie', 'tv'],
+            ),
+            openapi.Parameter(
+                name='content_id',
+                in_=openapi.IN_PATH,
+                type=openapi.TYPE_INTEGER,
+                required=True,
+                description='The movie or series id'
+            ),
+            openapi.Parameter(
+                name='include_image_language',
+                in_=openapi.IN_QUERY,
+                type=openapi.TYPE_STRING,
+                required=False,
+                description='Specify a comma-separated list of ISO-639-1 values to query. Example: en,null'
+            ),
+            openapi.Parameter(
+                name='language',
+                in_=openapi.IN_QUERY,
+                type=openapi.TYPE_STRING,
+                required=False,
+                description='Language code (e.g., "ta-IN")',
+                default='en-US'
+            ),
+        ]
+    )
+    def get(self, request, content_type, content_id):
+
+        url = f"https://api.themoviedb.org/3/{content_type}/{content_id}/images"
+
+        params = {
+            'include_image_language': request.query_params.get('include_image_language', 'en,null'),
+            'language': request.query_params.get('language', 'en-US'),
+        }
+
+        headers = {
+            "accept": "application/json",
+            "Authorization": f"Bearer {os.environ.get('ACCESSTOKENAUTH')}"
+        }
+
+        response = requests.get(url, params=params, headers=headers)
+        # print(response.url)
+        # image_url = f"https://image.tmdb.org/t/p/original{
+        #     image_data['file_path']}"
+
+        if response.status_code == 200:
+            return Response(response.json())
+        elif response.status_code == 401:
+            return Response({"error": "Unauthorized request. Please check your bearer token."}, status=status.HTTP_401_UNAUTHORIZED)
+        else:
+            return Response({"error": "Failed to retrieve images data"}, status=response.status_code)

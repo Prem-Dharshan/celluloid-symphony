@@ -10,7 +10,7 @@ python manage.py check
 # Check if system check identified no issues
 if [ $? -eq 0 ]; then
     # If no issues, run the server
-    python manage.py runserver
+    python manage.py runserver 8001
 else
     # If issues found, print a message
     echo "System check identified issues. Please fix them before starting the server."

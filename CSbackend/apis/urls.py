@@ -16,5 +16,8 @@ urlpatterns = [
          MovieDetailView.as_view(), name='movie-detail'),
 
     # MOVIE LISTS
-    path('now-playing', NowPlayingView.as_view(), name='now-playing')
+    path('now-playing', NowPlayingView.as_view(), name='now-playing'),
+
+    # TRENDING
+    path('trending/all', TrendingView.as_view(), name='trending-all')
 ]

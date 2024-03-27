@@ -311,3 +311,54 @@ class NowPlayingView(APIView):
             return Response({"error": "Unauthorized request. Please check your bearer token."}, status=status.HTTP_401_UNAUTHORIZED)
         else:
             return Response({"error": "Failed to retrieve movie data"}, status=response.status_code)
+
+
+class TrendingView(APIView):
+
+    @swagger_auto_schema(
+        manual_parameters=[
+            openapi.Parameter(
+                name='time_window',
+                in_=openapi.IN_PATH,
+                type=openapi.TYPE_STRING,
+                required=True,
+                description='Time window for trending data',
+                enum=['day', 'week'],
+                default='day'
+            ),
+            openapi.Parameter(
+                name='language',
+                in_=openapi.IN_QUERY,
+                type=openapi.TYPE_STRING,
+                required=False,
+                description='Language code (e.g., "ta-IN")',
+                default='en-US'
+            ),
+            
+        ]
+    )
+    def get(self, request):
+
+        time_window = request.query_params.get('time_window', 'day')
+        url = f"https://api.themoviedb.org/3/trending/all/{time_window}"
+
+        params = {
+            'language': request.query_params.get('language', 'en-US'),
+        }
+
+        headers = {
+            "accept": "application/json",
+            "Authorization": f"Bearer {os.environ.get('ACCESSTOKENAUTH')}"
+        }
+
+        response = requests.get(url, params=params, headers=headers)
+        print(response.url)
+
+        if response.status_code == 200:
+            return Response(response.json())
+        elif response.status_code == 401:
+            return Response({"error": "Unauthorized request. Please check your bearer token."}, status=status.HTTP_401_UNAUTHORIZED)
+        else:
+            return Response({"error": "Failed to retrieve trending data"}, status=response.status_code)
+
+

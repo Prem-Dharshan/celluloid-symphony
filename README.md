@@ -60,4 +60,4 @@ This script does the following:
    - The system check framework is used to inspect the entire Django project for common problem and all apps will be checked.
    - If no issues, the development server is started.
 
-You can now access the Django project at `http://localhost:8000/`.
+You can now access the Django project at `http://localhost:8001/`.

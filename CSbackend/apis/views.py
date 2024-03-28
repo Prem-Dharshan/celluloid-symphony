@@ -267,7 +267,7 @@ class NowPlayingView(APIView):
                 in_=openapi.IN_QUERY,
                 type=openapi.TYPE_STRING,
                 required=False,
-                description='Language code (e.g., "ta-IN")',
+                description='Language code (e.g., "en-US")',
                 default='en-US'
             ),
             openapi.Parameter(
@@ -289,18 +289,20 @@ class NowPlayingView(APIView):
     )
     def get(self, request):
 
-        url = f"https://api.themoviedb.org/3/search/movie/now_playing"
+        url = f"https://api.themoviedb.org/3/movie/now_playing"
 
         params = {
             'language': request.query_params.get('language', 'en-US'),
             'page': request.query_params.get('page', 1),
-            'region': request.query_params.get('region', 'India'),
+            # 'region': request.query_params.get('region', 'India'),
         }
 
         headers = {
             "accept": "application/json",
             "Authorization": f"Bearer {os.environ.get('ACCESSTOKENAUTH')}"
         }
+
+        # url = "https://api.themoviedb.org/3/movie/now_playing?language=en-US&page=1"
 
         response = requests.get(url, params=params, headers=headers)
         print(response.url)
@@ -399,7 +401,7 @@ class ImageView(APIView):
     )
     def get(self, request, content_type, content_id):
 
-        url = f"https://api.themoviedb.org/3/{content_type}/{content_id}/images"
+        url = "https://api.themoviedb.org/3/" + f"{content_type}/{content_id}/images"
 
         params = {
             'include_image_language': request.query_params.get('include_image_language', 'en,null'),

@@ -27,6 +27,7 @@ SECRET_KEY = environ.get('SECRET_KEY')
 DEBUG = environ.get('DEBUG')
 
 ALLOWED_HOSTS = environ.get('ALLOWED_HOSTS').split(',')
+# ALLOWED_HOSTS = ['0.0.0.0', '127.0.0.1']
 
 
 # Application definition

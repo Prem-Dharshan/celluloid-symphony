@@ -6,7 +6,7 @@ services:
     build:
       context: ./CSbackend
       dockerfile: Dockerfile
-    command: python manage.py runserver
+    command: python manage.py runserver 0.0.0.0:8000
     volumes:
       - ./CSbackend:/usr/src/app
     ports:

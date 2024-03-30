@@ -29,6 +29,7 @@ DEBUG = environ.get('DEBUG')
 ALLOWED_HOSTS = environ.get('ALLOWED_HOSTS').split(',')
 # ALLOWED_HOSTS = ['0.0.0.0', '127.0.0.1']
 CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS = True
 
 # CORS_ORIGIN_WHITELIST = [
 #     # 'http://localhost:3000',

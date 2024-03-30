@@ -38,6 +38,8 @@ CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',
 ]
 
+CSRF_COOKIE_NAME="csrftoken"
+
 # CORS_ALLOW_METHODS = ['GET', 'POST', 'PUT', 'DELETE']
 # CORS_ALLOW_HEADERS = ['Content-Type', 'Authorization']
 

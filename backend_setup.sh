@@ -4,7 +4,7 @@
 python3 -m venv venv
 
 # Step 2: Activate virtual environment
-source venv/bin/activate
+source venv/Scripts/activate
 
 # Step 3: Install requirements
 pip install -r CSbackend/requirements.txt

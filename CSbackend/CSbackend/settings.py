@@ -31,8 +31,15 @@ ALLOWED_HOSTS = environ.get('ALLOWED_HOSTS').split(',')
 CORS_ORIGIN_ALLOW_ALL = True
 
 CORS_ORIGIN_WHITELIST = [
+    # 'http://localhost:3000',
+]
+
+CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',
 ]
+
+# CORS_ALLOW_METHODS = ['GET', 'POST', 'PUT', 'DELETE']
+# CORS_ALLOW_HEADERS = ['Content-Type', 'Authorization']
 
 # Application definition
 
